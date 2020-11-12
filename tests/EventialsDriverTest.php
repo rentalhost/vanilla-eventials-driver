@@ -226,6 +226,15 @@ class EventialsDriverTest
 
     /**
      * @depends testWithCredentials
+     * @depends testScheduleWebinar
+     */
+    public function testGetWebinarInvalid(DriverHandler $driverHandler): void
+    {
+        static::assertNull($driverHandler->getWebinar(123));
+    }
+
+    /**
+     * @depends testWithCredentials
      * @depends testGetWebinarInformation
      * @depends testAddWebinarParticipant
      */

@@ -52,12 +52,21 @@ class DriverHandler
         return $type;
     }
 
-    public function getWebinar(int $webinarId): WebinarType
+    public function getWebinar(int $webinarId): ?WebinarType
     {
-        /** @var WebinarType $type */
-        $type = TypeService::fromGuzzleResponse($this->guzzleClient->get('webinars/' . $webinarId), WebinarType::class);
+        try {
+            /** @var WebinarType $type */
+            $type = TypeService::fromGuzzleResponse($this->guzzleClient->get('webinars/' . $webinarId), WebinarType::class);
 
-        return $type;
+            return $type;
+        }
+        catch (ClientException $exception) {
+            if ($exception->getCode() === 404) {
+                return null;
+            }
+
+            throw $exception;
+        }
     }
 
     public function getWebinarForm(int $webinarId): WebinarFormTypeArray
