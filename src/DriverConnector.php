@@ -11,11 +11,6 @@ class DriverConnector
 {
     private const EVENTIALS_API_ENDPOINT = 'https://api.eventials.com/v1/';
 
-    public static function withCredentials(CredentialsType $credentials): DriverHandler
-    {
-        return new DriverHandler(self::getGuzzleClientAuthenticated($credentials));
-    }
-
     public static function getGuzzleClient(): GuzzleClient
     {
         return new GuzzleClient([ 'base_uri' => self::EVENTIALS_API_ENDPOINT ]);
@@ -30,5 +25,10 @@ class DriverConnector
                 'Authorization' => 'Bearer ' . $credentials->getAccessToken()->access_token
             ]
         ]);
+    }
+
+    public static function withCredentials(CredentialsType $credentials): DriverHandler
+    {
+        return new DriverHandler(self::getGuzzleClientAuthenticated($credentials));
     }
 }

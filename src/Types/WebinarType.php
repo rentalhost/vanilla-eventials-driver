@@ -68,4 +68,9 @@ class WebinarType
         'category'   => WebinarCategoryType::class,
         'stream'     => WebinarStreamType::class
     ];
+
+    public function getCustomDomainUrl(string $domain): string
+    {
+        return preg_replace('<^(https://)www.eventials.com(/)>', '$1' . $domain . '$2', $this->url);
+    }
 }

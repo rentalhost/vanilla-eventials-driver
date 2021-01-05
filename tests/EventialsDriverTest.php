@@ -184,7 +184,9 @@ class EventialsDriverTest
         static::assertSame('', $webinarResponse->access_code);
 
         static::assertStringStartsWith('https://www.eventials.com/', $webinarResponse->url);
+        static::assertStringStartsWith('https://custom-domain.com/', $webinarResponse->getCustomDomainUrl('custom-domain.com'));
         static::assertStringContainsString('/test-', $webinarResponse->url);
+        static::assertStringContainsString('/test-', $webinarResponse->getCustomDomainUrl('custom-domain.com'));
         static::assertStringContainsString('https://api.eventials.com/v1/webinars/', $webinarResponse->cover);
 
         static::assertInstanceOf(WebinarOwnerType::class, $webinarResponse->owner);
