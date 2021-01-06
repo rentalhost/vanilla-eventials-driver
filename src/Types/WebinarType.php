@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Rentalhost\Vanilla\EventialsDriver\Types;
 
 use Carbon\Carbon;
+use Rentalhost\Vanilla\EventialsDriver\Services\CustomDomainService;
 use Rentalhost\Vanilla\Type\Type;
 
 /**
@@ -69,8 +70,12 @@ class WebinarType
         'stream'     => WebinarStreamType::class
     ];
 
-    public function getCustomDomainUrl(string $domain): string
+    public function getCustomDomainUrl(?string $domain): string
     {
-        return preg_replace('<^(https://)www.eventials.com(/)>', '$1' . $domain . '$2', $this->url);
+        if (!$domain) {
+            return $this->url;
+        }
+
+        return CustomDomainService::applyCustomDomainToUrl($domain, $this->url);
     }
 }

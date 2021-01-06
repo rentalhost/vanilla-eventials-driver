@@ -76,6 +76,9 @@ class EventialsDriverTest
         self::assertTrue($participantType->date_added->isToday());
         self::assertSame([], $participantType->additional_data);
         self::assertNull($participantType->access_code);
+        self::assertStringStartsWith('https://www.eventials.com/', $participantType->access_url);
+        self::assertStringStartsWith('https://www.eventials.com/', $participantType->getCustomDomainAccessUrl(null));
+        self::assertStringStartsWith('https://custom-domain.com/', $participantType->getCustomDomainAccessUrl('custom-domain.com'));
         self::assertStringEndsWith('?email=required-only-fields@domain.com', $participantType->access_url);
 
         return $participantType;
@@ -184,6 +187,7 @@ class EventialsDriverTest
         static::assertSame('', $webinarResponse->access_code);
 
         static::assertStringStartsWith('https://www.eventials.com/', $webinarResponse->url);
+        static::assertStringStartsWith('https://www.eventials.com/', $webinarResponse->getCustomDomainUrl(null));
         static::assertStringStartsWith('https://custom-domain.com/', $webinarResponse->getCustomDomainUrl('custom-domain.com'));
         static::assertStringContainsString('/test-', $webinarResponse->url);
         static::assertStringContainsString('/test-', $webinarResponse->getCustomDomainUrl('custom-domain.com'));

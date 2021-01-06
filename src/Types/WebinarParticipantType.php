@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Rentalhost\Vanilla\EventialsDriver\Types;
 
 use Carbon\Carbon;
+use Rentalhost\Vanilla\EventialsDriver\Services\CustomDomainService;
 use Rentalhost\Vanilla\Type\Type;
 
 /**
@@ -35,5 +36,14 @@ class WebinarParticipantType
 
         $this->access_code     = $this->access_code ?: null;
         $this->additional_data = json_decode($this->get('additional_data'), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    public function getCustomDomainAccessUrl(?string $domain): string
+    {
+        if (!$domain) {
+            return $this->access_url;
+        }
+
+        return CustomDomainService::applyCustomDomainToUrl($domain, $this->access_url);
     }
 }
